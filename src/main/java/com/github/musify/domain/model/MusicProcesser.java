@@ -6,8 +6,8 @@ import java.util.Locale;
 
 public class MusicProcesser {
 
-    private String input;
-    private PatternBuilder builder;
+    private final String input;
+    private final PatternBuilder builder;
 
     public MusicProcesser(String input) {
         this.input = input;
@@ -15,15 +15,15 @@ public class MusicProcesser {
     }
 
     private boolean appendNote(String character) {
-        if (character.matches("[A-G]")) {
-            this.builder.addNote(Notes.fromString(character));
+        if (character.matches("[a-g]")) {
+            this.builder.addNote(new Note(Note.BaseNote.fromString(character.toUpperCase(Locale.ROOT)), this.builder.getOctave()));
             return true;
         }
         return false;
     }
 
     private void appendPrevious(String previousCharacter, String character) {
-        if (character.matches("[^h-zA-Z0-9;\n.!,? ]"))
+        if (character.matches("[^h-za-z0-9;\n.!,? ]"))
             if (!appendNote(previousCharacter))
                 this.builder.appendBreak();
     }

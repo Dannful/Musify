@@ -7,14 +7,62 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import org.jfugue.player.Player;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.AnchorPane;
 
 public class MusifyController {
 
     @FXML
-    private TextArea inputText;
+    private RadioButton bpmButton;
 
     @FXML
-    private Button convertButton;
+    public Button convertMusicButton;
+
+    @FXML
+    private MenuBar menu;
+
+    @FXML
+    private TextArea fileField;
+
+    @FXML
+    private Button playMusicButton;
+
+    @FXML
+    private TextArea textFieldForConvert;
+
+    @FXML
+    private ChoiceBox<?> instrumentChoiceFild;
+
+    @FXML
+    private ProgressBar convertProcessBar;
+
+    @FXML
+    private Slider musicProgress;
+
+    @FXML
+    private AnchorPane mainArea;
+
+    @FXML
+    private Menu help;
+
+    @FXML
+    private Label labelBpm;
+
+    @FXML
+    private Label labelFile;
+
+    @FXML
+    private Label labelInstruments;
+
+    @FXML
+    private Separator separator;
 
     private void playSomethingCool() {
         Player player = new Player();
@@ -38,7 +86,7 @@ public class MusifyController {
 
     @FXML
     private void onConvertClick() {
-        final String text = inputText.getText();
+        final String text = textFieldForConvert.getText();
         if (text.isBlank())
             return;
         MusicProcesser processer = new MusicProcesser(text);

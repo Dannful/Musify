@@ -3,15 +3,19 @@ package com.github.musify.domain.model;
 import org.jfugue.pattern.Pattern;
 
 import java.util.Locale;
+import java.util.function.Consumer;
 
 public class MusicProcesser {
 
     private final String input;
     private final PatternBuilder builder;
 
-    public MusicProcesser(String input) {
+    private int currentCharacterPosition;
+
+    public MusicProcesser(String input, PatternBuilder builder) {
         this.input = input;
-        this.builder = new PatternBuilder();
+        this.currentCharacterPosition = 0;
+        this.builder = builder;
     }
 
     private boolean appendNote(String character) {
@@ -69,9 +73,15 @@ public class MusicProcesser {
             this.builder.setInstrument((short) (this.builder.getInstrumentMidiIndex() + Integer.parseInt(character)));
     }
 
-    public Pattern process() {
+    public int getCurrentCharacterPosition() {
+        return this.currentCharacterPosition;
+    }
+
+    public PatternBuilder process(Consumer<Integer> updateProgress) {
         String lastCharacter = "";
-        for (char each : input.toCharArray()) {
+        for (currentCharacterPosition = 0; currentCharacterPosition < this.input.length(); currentCharacterPosition++) {
+            updateProgress.accept(currentCharacterPosition);
+            char each = this.input.charAt(currentCharacterPosition);
             String character = String.valueOf(each);
             appendNote(character);
             appendPrevious(lastCharacter, character);
@@ -86,6 +96,6 @@ public class MusicProcesser {
             lastCharacter = character;
         }
         this.builder.cleanPattern();
-        return this.builder.build();
+        return this.builder;
     }
 }

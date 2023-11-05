@@ -1,7 +1,11 @@
 package com.github.musify.domain.model;
 
 import org.jfugue.pattern.Pattern;
+import org.jfugue.tools.ComputeDurationForEachTrackTool;
+import org.jfugue.tools.GetInstrumentsUsedTool;
+import org.staccato.StaccatoParser;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 
 public class PatternBuilder {
@@ -16,13 +20,19 @@ public class PatternBuilder {
     private short instrument;
     private short octave;
     private int tempo;
+    private double duration;
 
     public PatternBuilder() {
-        this.instrument = DEFAULT_INSTRUMENT.getMidiIndex();
-        this.volume = DEFAULT_VOLUME;
-        this.octave = DEFAULT_OCTAVE;
-        this.tempo = DEFAULT_TEMPO;
+        this(DEFAULT_INSTRUMENT, DEFAULT_TEMPO);
+    }
+
+    public PatternBuilder(Instruments instrument, int tempo) {
         this.pattern = new Pattern();
+        this.octave = DEFAULT_OCTAVE;
+        setVolume(DEFAULT_VOLUME);
+        setInstrument(instrument);
+        setTempo(tempo);
+        this.duration = 0;
     }
 
     private void appendHeader() {
@@ -30,7 +40,7 @@ public class PatternBuilder {
     }
 
     public void setVolume(short newVolume) {
-        if (!(newVolume < 0 || newVolume > 127))
+        if (newVolume < 0 || newVolume > 127)
             newVolume = DEFAULT_VOLUME;
         this.volume = newVolume;
         appendHeader();
@@ -55,32 +65,34 @@ public class PatternBuilder {
     }
 
     public void setOctave(short newOctave) {
-        if (newOctave < 0 || newOctave > 10)
+        if (newOctave <= org.jfugue.theory.Note.MIN_OCTAVE || newOctave >= org.jfugue.theory.Note.MAX_OCTAVE)
             newOctave = DEFAULT_OCTAVE;
         this.octave = newOctave;
     }
 
     public void addNote(Note note) {
         pattern.add(note.toPatternString() + " ");
+        duration += 1000 / (tempo / 60d);
     }
 
     public void appendBreak() {
-        pattern.add("R/2 ");
-        setVolume(volume);
+        pattern.add("| T60 :CON(7,0) C5 C5 C5 | ");
+        appendHeader();
+        duration += 3000;
     }
 
     public void cleanPattern() {
         String aux = pattern.toString();
         pattern.clear();
         aux = aux.trim().replaceAll(" +", " ");
-        Matcher matcher = java.util.regex.Pattern.compile("[^|]+(?<=[A-G][0-9]{1,2})(?: \\||$)").matcher(aux);
+        Matcher matcher = java.util.regex.Pattern.compile("[^|]+(?<=(?:[A-GR]|R/)[0-9]{1,2})(?: \\||$)").matcher(aux);
         StringBuilder newPattern = new StringBuilder();
         while (matcher.find())
             newPattern.append(matcher.group());
         String result = newPattern.toString().trim();
-        if(result.startsWith("|"))
+        if (result.startsWith("|"))
             result = result.substring(1);
-        if(result.endsWith("|"))
+        if (result.endsWith("|"))
             result = result.substring(0, result.length() - 1);
         pattern.add(result);
     }
@@ -103,5 +115,9 @@ public class PatternBuilder {
 
     public Pattern build() {
         return this.pattern;
+    }
+
+    public double getDuration() {
+        return this.duration;
     }
 }

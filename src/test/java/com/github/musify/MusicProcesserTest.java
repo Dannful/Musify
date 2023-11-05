@@ -1,6 +1,7 @@
 package com.github.musify;
 
 import com.github.musify.domain.model.MusicProcesser;
+import com.github.musify.domain.model.PatternBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ class MusicProcesserTest {
 
     @BeforeEach
     void setUp() {
-        processer = new MusicProcesser("");
+        processer = new MusicProcesser("", new PatternBuilder());
     }
 
     @Test

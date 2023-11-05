@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.musify.presentation.MusifyController">
+    <AnchorPane fx:id="mainArea" prefHeight="523.0" prefWidth="820.0" VBox.vgrow="ALWAYS">
+        <Slider fx:id="musicProgress" blockIncrement="1.0" disable="true" layoutX="90.0" layoutY="323.0" prefHeight="15.0" prefWidth="465.0" />
+        <TextArea fx:id="textFieldForConvert" layoutX="14.0" layoutY="14.0" prefHeight="226.0" prefWidth="326.0" />
+        <Button fx:id="convertMusicButton" disable="true" layoutX="355.0" layoutY="196.0" mnemonicParsing="false" onAction="#onGenerateClicked" prefHeight="57.0" prefWidth="110.0" text="Generate" />
+        <ProgressBar fx:id="convertProcessBar" layoutX="485.0" layoutY="224.0" prefHeight="20.0" prefWidth="147.0" progress="0.0" />
+        <Label fx:id="labelFile" layoutX="356.0" layoutY="21.0" prefHeight="24.0" prefWidth="55.0" text="File" />
+        <ChoiceBox fx:id="instrumentChoiceField" layoutX="476.0" layoutY="61.0" prefHeight="26.0" prefWidth="157.0" value="Piano">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Piano" />
+                    <String fx:value="Agogo" />
+                    <String fx:value="Harpsichord" />
+                    <String fx:value="Tubular Bells" />
+                    <String fx:value="Flute" />
+                    <String fx:value="Church Organ" />
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+        <Label fx:id="labelInstruments" layoutX="356.0" layoutY="65.0" text="Instrument" />
+        <Button fx:id="playMusicButton" disable="true" layoutX="20.0" layoutY="317.0" mnemonicParsing="false" onAction="#onPlayClicked" prefHeight="26.0" prefWidth="56.0" text="Play" />
+        <Label fx:id="labelBpm" layoutX="357.0" layoutY="118.0" prefHeight="18.0" prefWidth="42.0" text="BPM" />
+        <Separator fx:id="separator" layoutX="-4.0" layoutY="254.0" prefHeight="24.0" prefWidth="648.0" />
+        <Spinner fx:id="bpmSpinner" layoutX="355.0" layoutY="136.0" prefHeight="25.0" prefWidth="110.0" />
+      <Button fx:id="stopMusicButton" disable="true" layoutX="567.0" layoutY="318.0" mnemonicParsing="false" onAction="#onStopClicked" prefHeight="26.0" prefWidth="56.0" text="Stop" />
+      <Button fx:id="loadFileButton" layoutX="476.0" layoutY="21.0" mnemonicParsing="false" onAction="#onLoadFileClicked" prefHeight="25.0" prefWidth="157.0" text="Load file..." />
+    </AnchorPane>
+</VBox>

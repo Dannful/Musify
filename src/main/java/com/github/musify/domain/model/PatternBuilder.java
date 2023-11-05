@@ -1,11 +1,7 @@
 package com.github.musify.domain.model;
 
 import org.jfugue.pattern.Pattern;
-import org.jfugue.tools.ComputeDurationForEachTrackTool;
-import org.jfugue.tools.GetInstrumentsUsedTool;
-import org.staccato.StaccatoParser;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 
 public class PatternBuilder {
@@ -95,10 +91,6 @@ public class PatternBuilder {
         if (result.endsWith("|"))
             result = result.substring(0, result.length() - 1);
         pattern.add(result);
-    }
-
-    public int getTempo() {
-        return this.tempo;
     }
 
     public short getVolume() {

@@ -1,14 +1,13 @@
 package com.github.musify.presentation;
 
-import com.github.musify.domain.model.Instruments;
-import com.github.musify.domain.model.MusicProcesser;
-import com.github.musify.domain.model.PatternBuilder;
+import com.github.musify.domain.model.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
@@ -111,7 +110,7 @@ public class MusifyController {
         final Task<Void> task = new Task<>() {
             @Override
             protected Void call() {
-                MusicProcesser processer = new MusicProcesser(textFieldForConvert.getText(), new PatternBuilder(Instruments.valueOf(instrumentChoiceField.getValue().toUpperCase(Locale.ROOT).replaceAll(" ", "_")), bpmSpinner.getValue().shortValue()));
+                MusicProcesser processer = new DefaultMusicProcesser(textFieldForConvert.getText(), Instruments.valueOf(instrumentChoiceField.getValue().toUpperCase(Locale.ROOT).replaceAll(" ", "_")), bpmSpinner.getValue().shortValue());
                 processedSong = processer.process((progress) -> updateProgress(progress, textFieldForConvert.getText().length() - 1));
                 unlockUI();
                 return null;
@@ -121,6 +120,7 @@ public class MusifyController {
         Thread taskThread = new Thread(task);
         taskThread.start();
     }
+
 
     @FXML
     private void onPlayClicked() {

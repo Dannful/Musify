@@ -1,10 +1,5 @@
 package com.github.musify.domain.model;
 
-import org.jfugue.pattern.Pattern;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Locale;
 import java.util.function.Consumer;
 
 public abstract class MusicProcesser {

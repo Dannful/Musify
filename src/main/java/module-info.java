@@ -9,10 +9,21 @@ module com.github.musify {
 
     requires jfugue;
 
-    opens com.github.musify to javafx.fxml;
-    exports com.github.musify.domain.model;
-    opens com.github.musify.domain.model to javafx.fxml;
-    exports com.github.musify.presentation;
-    opens com.github.musify.presentation to javafx.fxml;
+    requires spring.beans;
+    requires spring.boot;
+    requires spring.boot.autoconfigure;
+    requires spring.context;
+    requires spring.core;
+
+    opens com.github.musify to javafx.fxml, spring.core;
+    opens com.github.musify.data.repository to javafx.fxml, spring.core;
+    opens com.github.musify.domain.repository to javafx.fxml, spring.core;
+    opens com.github.musify.domain.model to javafx.fxml, spring.core;
+    opens com.github.musify.presentation to javafx.fxml, spring.core;
+
     exports com.github.musify;
+    exports com.github.musify.data.repository;
+    exports com.github.musify.domain.repository;
+    exports com.github.musify.domain.model;
+    exports com.github.musify.presentation;
 }

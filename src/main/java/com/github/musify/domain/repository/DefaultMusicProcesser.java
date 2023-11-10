@@ -1,13 +1,25 @@
-package com.github.musify.domain.model;
+package com.github.musify.domain.repository;
+
+import com.github.musify.data.repository.MusicProcesser;
+import com.github.musify.domain.model.Instruments;
+import com.github.musify.domain.model.Note;
+import com.github.musify.domain.model.PatternBuilder;
+import com.github.musify.domain.model.ProcessingData;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
+@Component
 public class DefaultMusicProcesser extends MusicProcesser {
 
-    public DefaultMusicProcesser(String input, Instruments defaultInstrument, short defaultTempo) {
-        super(input);
-        getBuilder().setInstrument(defaultInstrument);
-        getBuilder().setTempo(defaultTempo);
+    public DefaultMusicProcesser() {
+        super();
+    }
+
+    @Override
+    public void setConfiguration(PatternBuilder builder) {
+        this.builder = builder;
     }
 
     private void ifMatches(ProcessingData processingData, Runnable action) {

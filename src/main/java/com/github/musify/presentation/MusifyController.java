@@ -1,26 +1,29 @@
 package com.github.musify.presentation;
 
-import com.github.musify.domain.model.*;
+import com.github.musify.data.repository.MusicProcesser;
+import com.github.musify.domain.model.Instruments;
+import com.github.musify.domain.model.PatternBuilder;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import org.jfugue.player.ManagedPlayer;
 import org.jfugue.player.Player;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Locale;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
 public class MusifyController {
 
     @FXML
@@ -78,6 +81,13 @@ public class MusifyController {
     private ManagedPlayer managedPlayer;
     private Timeline timeline;
 
+    private MusicProcesser musicProcesser;
+
+    @Autowired
+    public void setMusicProcesser(MusicProcesser musicProcesser) {
+        this.musicProcesser = musicProcesser;
+    }
+
     public void initialize() {
         textFieldForConvert.textProperty().addListener((observable, oldValue, newValue) -> convertMusicButton.setDisable(newValue.isBlank()));
         SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(60, 1000, 60);
@@ -110,8 +120,11 @@ public class MusifyController {
         final Task<Void> task = new Task<>() {
             @Override
             protected Void call() {
-                MusicProcesser processer = new DefaultMusicProcesser(textFieldForConvert.getText(), Instruments.valueOf(instrumentChoiceField.getValue().toUpperCase(Locale.ROOT).replaceAll(" ", "_")), bpmSpinner.getValue().shortValue());
-                processedSong = processer.process((progress) -> updateProgress(progress, textFieldForConvert.getText().length() - 1));
+                PatternBuilder defaultBuilder = new PatternBuilder();
+                defaultBuilder.setInstrument(Instruments.valueOf(instrumentChoiceField.getValue().toUpperCase(Locale.ROOT).replaceAll(" ", "_")));
+                defaultBuilder.setTempo(bpmSpinner.getValue());
+                musicProcesser.setConfiguration(defaultBuilder);
+                processedSong = musicProcesser.process(textFieldForConvert.getText(), (progress) -> updateProgress(progress, textFieldForConvert.getText().length() - 1));
                 unlockUI();
                 return null;
             }

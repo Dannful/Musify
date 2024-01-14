@@ -32,6 +32,6 @@ public class Note {
     }
 
     public String toPatternString() {
-        return note.toString() + octave;
+        return note.toString() + octave + "q";
     }
 }

@@ -12,14 +12,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import org.jfugue.midi.MidiFileManager;
+import org.jfugue.pattern.Pattern;
 import org.jfugue.player.ManagedPlayer;
 import org.jfugue.player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -33,16 +33,7 @@ public class MusifyController {
     @FXML
     public Button loadFileButton;
     @FXML
-    private RadioButton bpmButton;
-
-    @FXML
     public Button convertMusicButton;
-
-    @FXML
-    private MenuBar menu;
-
-    @FXML
-    private TextArea fileField;
 
     @FXML
     private Button playMusicButton;
@@ -63,19 +54,7 @@ public class MusifyController {
     private AnchorPane mainArea;
 
     @FXML
-    private Menu help;
-
-    @FXML
-    private Label labelBpm;
-
-    @FXML
-    private Label labelFile;
-
-    @FXML
-    private Label labelInstruments;
-
-    @FXML
-    private Separator separator;
+    private Button saveToButton;
 
     private PatternBuilder processedSong;
     private ManagedPlayer managedPlayer;
@@ -102,6 +81,7 @@ public class MusifyController {
         bpmSpinner.setDisable(true);
         instrumentChoiceField.setDisable(true);
         loadFileButton.setDisable(true);
+        saveToButton.setDisable(true);
     }
 
     private void unlockUI() {
@@ -112,6 +92,7 @@ public class MusifyController {
         instrumentChoiceField.setDisable(false);
         stopMusicButton.setDisable(true);
         loadFileButton.setDisable(false);
+        saveToButton.setDisable(false);
     }
 
     @FXML
@@ -125,6 +106,7 @@ public class MusifyController {
                 defaultBuilder.setTempo(bpmSpinner.getValue());
                 musicProcesser.setConfiguration(defaultBuilder);
                 processedSong = musicProcesser.process(textFieldForConvert.getText(), (progress) -> updateProgress(progress, textFieldForConvert.getText().length() - 1));
+                processedSong.cleanPatterns();
                 unlockUI();
                 return null;
             }
@@ -172,6 +154,22 @@ public class MusifyController {
             textFieldForConvert.setText(bufferedReader.lines().collect(Collectors.joining("\n")));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void onSaveToClicked() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save to MIDI file");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MIDI file", "*.mid"));
+        File selected = fileChooser.showSaveDialog(mainArea.getScene().getWindow());
+        if (selected == null)
+            return;
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(selected);
+            MidiFileManager.savePatternToMidi(processedSong.build(), fileOutputStream);
+            fileOutputStream.close();
+        } catch (Exception ignored) {
         }
     }
 }

@@ -19,11 +19,13 @@ module com.github.musify {
     opens com.github.musify.data.repository to javafx.fxml, spring.core;
     opens com.github.musify.domain.repository to javafx.fxml, spring.core;
     opens com.github.musify.domain.model to javafx.fxml, spring.core;
+    opens com.github.musify.domain.di to javafx.fxml,spring.core;
     opens com.github.musify.presentation to javafx.fxml, spring.core;
 
     exports com.github.musify;
     exports com.github.musify.data.repository;
     exports com.github.musify.domain.repository;
     exports com.github.musify.domain.model;
+    exports com.github.musify.domain.di;
     exports com.github.musify.presentation;
 }

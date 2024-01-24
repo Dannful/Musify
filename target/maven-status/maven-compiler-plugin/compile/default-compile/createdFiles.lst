@@ -1,0 +1,10 @@
+com\github\musify\domain\model\Note.class
+com\github\musify\presentation\MusifyController$1.class
+module-info.class
+com\github\musify\MusifyApplication.class
+com\github\musify\Main.class
+com\github\musify\presentation\MusifyController.class
+com\github\musify\domain\model\Instruments.class
+com\github\musify\domain\model\PatternBuilder.class
+com\github\musify\domain\model\Note$BaseNote.class
+com\github\musify\domain\model\MusicProcesser.class

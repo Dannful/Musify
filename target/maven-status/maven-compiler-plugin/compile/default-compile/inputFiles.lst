@@ -1,8 +1,13 @@
 D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\domain\model\Note.java
+D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\MusifyApplication.java
+D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\domain\di\MusicModule.java
+D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\data\repository\MusicProcesser.java
+D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\domain\model\PatternBuilder.java
 D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\Main.java
 D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\presentation\MusifyController.java
-D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\MusifyApplication.java
+D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\domain\repository\DefaultMusicProcesser.java
+D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\domain\model\ProcessingData.java
 D:\Documents\CS\Workspaces\Java\Musify\src\main\java\module-info.java
-D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\domain\model\MusicProcesser.java
+D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\StageInitializer.java
+D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\domain\repository\AlternativeMusicProcesser.java
 D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\domain\model\Instruments.java
-D:\Documents\CS\Workspaces\Java\Musify\src\main\java\com\github\musify\domain\model\PatternBuilder.java

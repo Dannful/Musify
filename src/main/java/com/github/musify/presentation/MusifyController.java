@@ -6,6 +6,7 @@ import com.github.musify.domain.model.PatternBuilder;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -69,7 +70,7 @@ public class MusifyController {
 
     public void initialize() {
         textFieldForConvert.textProperty().addListener((observable, oldValue, newValue) -> convertMusicButton.setDisable(newValue.isBlank()));
-        SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(60, 1000, 60);
+        SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(60, 960, 60);
         spinnerValueFactory.setAmountToStepBy(60);
         bpmSpinner.setValueFactory(spinnerValueFactory);
     }
@@ -97,6 +98,8 @@ public class MusifyController {
 
     @FXML
     private void onGenerateClicked() {
+        if (textFieldForConvert.getText().isBlank())
+            return;
         lockUI();
         final Task<Void> task = new Task<>() {
             @Override

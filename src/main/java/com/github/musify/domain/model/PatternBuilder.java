@@ -37,7 +37,6 @@ public class PatternBuilder {
 
     private final Stack<CustomPattern> patterns = new Stack<>();
 
-    //    private final Pattern pattern;
     private short volume;
     private short instrument;
     private short octave;

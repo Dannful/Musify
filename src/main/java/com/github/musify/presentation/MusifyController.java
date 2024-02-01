@@ -126,7 +126,9 @@ public class MusifyController {
         stopMusicButton.setDisable(false);
         Player player = new Player();
         managedPlayer = player.getManagedPlayer();
-        new Thread(() -> player.play(processedSong.build())).start();
+        Pattern build = processedSong.build();
+        System.out.println(build.toString());
+        new Thread(() -> player.play(build)).start();
         timeline = new Timeline();
         musicProgress.setMax(processedSong.getDuration());
         timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO, new KeyValue(musicProgress.valueProperty(), 0d)));

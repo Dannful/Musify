@@ -36,12 +36,20 @@ public class AlternativeMusicProcesser extends MusicProcesser {
         }
     }
 
+    private void volumePattern(ProcessingData data) {
+        if (data.getCurrentCharacter().equals("+")) {
+            if(data.getPreviousCharacter().equals("M") && data.getCharacterAt(2).equals("P") && data.getCharacterAt(3).equals("B"))
+                return;
+            getBuilder().setVolume((short) (getBuilder().getVolume() * 2));
+        }
+    }
+
     @Override
     public void receiveCharacter(ProcessingData processingData) {
         ifMatches(processingData.withRegexes(null, "[a-gA-G]"), () -> getBuilder().addNote(new Note(Note.BaseNote.fromString(processingData.getCurrentCharacter().toUpperCase(Locale.ROOT)), getBuilder().getOctave())));
         ifMatches(processingData.withRegexes(null, " "), () -> getBuilder().appendBreak());
-        ifMatches(processingData.withRegexes(null, "[+]"), () -> getBuilder().setVolume((short) (getBuilder().getVolume() * 2)));
-        ifMatches(processingData.withRegexes(null, "-"), () -> getBuilder().setVolume(PatternBuilder.getDefaultVolume()));
+        volumePattern(processingData);
+        ifMatches(processingData.withRegexes("[^R]", "-"), () -> getBuilder().setVolume(PatternBuilder.getDefaultVolume()));
         ifMatches(processingData.withRegexes("[a-gA-G]", "[oOiIuU]"), () -> getBuilder().addNote(new Note(Note.BaseNote.fromString(processingData.getPreviousCharacter().toUpperCase(Locale.ROOT)), getBuilder().getOctave())));
         ifMatches(processingData.withRegexes("[^a-gA-G]", "[oOiIuU]"), () -> getBuilder().playPhone());
         octavePattern(processingData);
